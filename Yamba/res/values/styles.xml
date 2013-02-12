@@ -17,4 +17,19 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="text">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
+    <style name="edit_text" parent="android:Widget.Holo.Light.EditText">
+        <item name="android:ems">10</item>
+        <item name="android:gravity">top|center_horizontal</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
 </resources>
