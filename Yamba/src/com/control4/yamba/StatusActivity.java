@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClientException;
+
 public class StatusActivity extends Activity implements TextWatcher {
 	private static final int MAX_COUNT = 140;
 	private EditText editStatus;
@@ -24,15 +27,27 @@ public class StatusActivity extends Activity implements TextWatcher {
 		textCount = (TextView) findViewById(R.id.text_count);
 		textCount.setText(String.valueOf(MAX_COUNT));
 		defaultTextColor = textCount.getTextColors().getDefaultColor();
-		
+
 		editStatus = (EditText) findViewById(R.id.edit_status);
 		editStatus.addTextChangedListener(this);
 	}
 
 	public void onClick(View v) {
-		String status = editStatus.getText().toString();
 
-		Log.d("Yamba", "onClicked with text: " + status);
+			new Thread() {
+				public void run() {
+				try {
+					String status = editStatus.getText().toString();
+					YambaClient yamba = new YambaClient("student", "password");
+					yamba.postStatus(status);					
+					Log.d("Yamba", "onClicked with text: " + status);
+				} catch (YambaClientException e) {
+					Log.e("Yamba", "Failed to post", e);
+					e.printStackTrace();
+				}
+				}
+			}.start();
+
 	}
 
 	// --- TextWatcher Callbacks ---
@@ -40,8 +55,8 @@ public class StatusActivity extends Activity implements TextWatcher {
 	public void afterTextChanged(Editable s) {
 		int count = 140 - s.length();
 		textCount.setText(String.valueOf(count));
-	
-		if(count<50) {
+
+		if (count < 50) {
 			textCount.setTextColor(Color.RED);
 		} else {
 			textCount.setTextColor(defaultTextColor);
