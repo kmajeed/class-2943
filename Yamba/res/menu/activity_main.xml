@@ -2,9 +2,15 @@
 
     <item
         android:id="@+id/item_status"
+        android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="always|withText"
-        android:title="@string/update"
-        android:icon="@android:drawable/ic_menu_add">
+        android:title="@string/update">
+    </item>
+    <item
+        android:id="@+id/item_refresh"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:showAsAction="always|withText"
+        android:title="@string/refresh">
     </item>
 
 </menu>
