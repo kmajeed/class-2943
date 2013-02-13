@@ -45,8 +45,8 @@ public class StatusActivity extends Activity implements TextWatcher {
 
 		@Override
 		protected void onPreExecute() {
-			dialog = ProgressDialog.show(StatusActivity.this, "Posting...",
-					"Please wait.");
+			dialog = ProgressDialog.show(StatusActivity.this, null,
+					"Posting...please wait");
 		}
 
 		/** Executes on a separate worker thread. */
