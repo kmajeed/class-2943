@@ -12,7 +12,7 @@ public class StatusContract {
   public static final int DB_VERSION = 1;
   public static final String TABLE = "status";
 
-  public static final String AUTHORITY = "com.marakana.android.yamba.provider.timeline";
+  public static final String AUTHORITY = "com.control4.android.yamba.provider.timeline";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
       + "/" + TABLE);
   public static final int CONTENT_TYPE_ITEM = 1;
