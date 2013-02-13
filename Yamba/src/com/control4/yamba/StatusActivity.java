@@ -1,6 +1,7 @@
 package com.control4.yamba;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,6 +41,13 @@ public class StatusActivity extends Activity implements TextWatcher {
 	}
 
 	class PostStatusTask extends AsyncTask<String, Void, String> {
+		ProgressDialog dialog;
+
+		@Override
+		protected void onPreExecute() {
+			dialog = ProgressDialog.show(StatusActivity.this, "Posting...",
+					"Please wait.");
+		}
 
 		/** Executes on a separate worker thread. */
 		@Override
@@ -59,6 +67,7 @@ public class StatusActivity extends Activity implements TextWatcher {
 		/** Executes on UI thread after doInBackground() is done. */
 		@Override
 		protected void onPostExecute(String result) {
+			dialog.dismiss();
 			Toast.makeText(StatusActivity.this, result, Toast.LENGTH_LONG)
 					.show();
 		}
