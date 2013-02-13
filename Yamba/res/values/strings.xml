@@ -8,5 +8,6 @@
     <string name="hint_status">What\'s going on ?</string>
     <string name="title_activity_status">Status Update</string>
     <string name="refresh">Refresh</string>
+    <string name="purge">Purge</string>
 
 </resources>

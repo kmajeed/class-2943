@@ -26,7 +26,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".RefreshService"></service>
+
+        <service android:name=".RefreshService" >
+        </service>
+
+        <provider
+            android:name=".StatusProvider"
+            android:authorities="com.control4.android.yamba.provider.timeline" >
+        </provider>
     </application>
 
 </manifest>
