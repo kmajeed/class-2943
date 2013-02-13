@@ -2,6 +2,7 @@ package com.control4.yamba;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.marakana.android.yamba.clientlib.YambaClient;
 import com.marakana.android.yamba.clientlib.YambaClientException;
@@ -33,20 +35,33 @@ public class StatusActivity extends Activity implements TextWatcher {
 	}
 
 	public void onClick(View v) {
+		String status = editStatus.getText().toString();
+		new PostStatusTask().execute(status);
+	}
 
-			new Thread() {
-				public void run() {
-				try {
-					String status = editStatus.getText().toString();
-					YambaClient yamba = new YambaClient("student", "password");
-					yamba.postStatus(status);					
-					Log.d("Yamba", "onClicked with text: " + status);
-				} catch (YambaClientException e) {
-					Log.e("Yamba", "Failed to post", e);
-					e.printStackTrace();
-				}
-				}
-			}.start();
+	class PostStatusTask extends AsyncTask<String, Void, String> {
+
+		/** Executes on a separate worker thread. */
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				YambaClient yamba = new YambaClient("student", "password");
+				yamba.postStatus(params[0]);
+				Log.d("Yamba", "onClicked with text: " + params[0]);
+				return "Successfully posted";
+			} catch (YambaClientException e) {
+				Log.e("Yamba", "Failed to post", e);
+				e.printStackTrace();
+				return "Failed to post";
+			}
+		}
+
+		/** Executes on UI thread after doInBackground() is done. */
+		@Override
+		protected void onPostExecute(String result) {
+			Toast.makeText(StatusActivity.this, result, Toast.LENGTH_LONG)
+					.show();
+		}
 
 	}
 
