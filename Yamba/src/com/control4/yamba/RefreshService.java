@@ -1,12 +1,22 @@
 package com.control4.yamba;
 
-import android.app.Service;
+import java.util.List;
+
+import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-public class RefreshService extends Service {
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClient.Status;
+import com.marakana.android.yamba.clientlib.YambaClientException;
+
+public class RefreshService extends IntentService {
 	private static final String TAG = "RefreshService";
+
+	public RefreshService() {
+		super(TAG);
+	}
 	
 	@Override
 	public void onCreate() {
@@ -14,13 +24,23 @@ public class RefreshService extends Service {
 		Log.d(TAG, "onCreate");
 	}
 
+	/** Executes on the worker thread. */
 	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
+	public void onHandleIntent(Intent intent) {
 		Log.d(TAG, "onStarted");
-		
-		// TODO add work
-		
-		return super.onStartCommand(intent, flags, startId);
+
+		try {
+			YambaClient yamba = new YambaClient("student", "password");
+			List<Status> timeline = yamba.getTimeline(20);
+			for (Status status : timeline) {
+				Log.d(TAG,
+						String.format("%s: %s", status.getUser(),
+								status.getMessage()));
+			}
+		} catch (YambaClientException e) {
+			Log.e(TAG, "Failed to get the timeline", e);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -28,7 +48,6 @@ public class RefreshService extends Service {
 		super.onDestroy();
 		Log.d(TAG, "onDestroyed");
 	}
-
 
 	@Override
 	public IBinder onBind(Intent intent) {
