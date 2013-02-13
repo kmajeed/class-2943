@@ -82,7 +82,7 @@ public class StatusProvider extends ContentProvider {
 			break;
 		case StatusContract.CONTENT_TYPE_ITEM:
 			long id = ContentUris.parseId(uri);
-			where = " and id=" + id;
+			where = String.format(" and %s=%d", StatusContract.Columns.ID, id);
 			break;
 		default:
 			throw new IllegalArgumentException("Invalid uri: " + uri);
@@ -98,8 +98,27 @@ public class StatusProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-		// TODO Auto-generated method stub
-		return null;
+		String where;
+
+		if (selection == null)
+			selection = "";
+
+		switch (matcher.match(uri)) {
+		case StatusContract.CONTENT_TYPE_DIR:
+			where = "";
+			break;
+		case StatusContract.CONTENT_TYPE_ITEM:
+			long id = ContentUris.parseId(uri);
+			where = String.format(" and %s=%d", StatusContract.Columns.ID, id);
+			break;
+		default:
+			throw new IllegalArgumentException("Invalid uri: " + uri);
+		}
+
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		Cursor cursor = db.query(StatusContract.TABLE, projection, selection + where, selectionArgs,
+				null, null, sortOrder);
+		return cursor;
 	}
 
 }
