@@ -3,6 +3,7 @@ package com.control4.yamba;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -12,6 +13,15 @@ public class StatusProvider extends ContentProvider {
 	private static final String TAG = "StatusProvider";
 	private DbHelper dbHelper;
 
+	private static final UriMatcher matcher = new UriMatcher(
+			UriMatcher.NO_MATCH);
+	static {
+		matcher.addURI(StatusContract.AUTHORITY, StatusContract.TABLE,
+				StatusContract.CONTENT_TYPE_DIR);
+		matcher.addURI(StatusContract.AUTHORITY, StatusContract.TABLE + "/#",
+				StatusContract.CONTENT_TYPE_ITEM);
+	}
+
 	@Override
 	public boolean onCreate() {
 		dbHelper = new DbHelper(getContext());
@@ -20,12 +30,22 @@ public class StatusProvider extends ContentProvider {
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (matcher.match(uri)) {
+		case StatusContract.CONTENT_TYPE_DIR:
+			return "vnd.android.cursor.dir/vnd.com.control4.yamba.status";
+		case StatusContract.CONTENT_TYPE_ITEM:
+			return "vnd.android.cursor.item/vnd.com.control4.yamba.status";
+		default:
+			return null;
+		}
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
+		// Assert
+		if (matcher.match(uri) != StatusContract.CONTENT_TYPE_DIR)
+			return null;
+
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		long id = db.insertWithOnConflict(StatusContract.TABLE, null, values,
 				SQLiteDatabase.CONFLICT_IGNORE);
@@ -47,12 +67,31 @@ public class StatusProvider extends ContentProvider {
 		return 0;
 	}
 
-	// delete from status where id=?
+	// uri: content://com.control4.android.yamba.provider.timeline/status/414
+	// delete from status where id=414 and selection=selectionArgs
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		String where;
+
+		if (selection == null)
+			selection = "";
+
+		switch (matcher.match(uri)) {
+		case StatusContract.CONTENT_TYPE_DIR:
+			where = "";
+			break;
+		case StatusContract.CONTENT_TYPE_ITEM:
+			long id = ContentUris.parseId(uri);
+			where = " and id=" + id;
+			break;
+		default:
+			throw new IllegalArgumentException("Invalid uri: " + uri);
+		}
+
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		int recs = db.delete(StatusContract.TABLE, selection, selectionArgs);
-		Log.d(TAG, "deleted recs: "+recs);
+		int recs = db.delete(StatusContract.TABLE, selection + where,
+				selectionArgs);
+		Log.d(TAG, "deleted recs: " + recs);
 		return recs;
 	}
 
