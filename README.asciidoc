@@ -181,7 +181,7 @@ DEMO: Create TimelineFragment::
 Create a fragment that will display the list of statuses from the status provider. Use `SimpleCursorAdapter`.
 
 LAB: Create a Custom View::
-Create a custom view to represent a single row of data. Call it `raw.xml` and it should have `text_user`, `text_message`, and `text_created_at` as pieces of text.
+Create a custom view to represent a single row of data. Call it `row.xml` and it should have `text_user`, `text_message`, and `text_created_at` as pieces of text.
 
 DEMO: View Binder::
 Create a view binder to properly display the relative time.
@@ -230,6 +230,12 @@ Source->Override/Implement Methods...
 Offers a list of possible methods to override/implement
 
 Or, watch http://mrkn.co/f/595[Eclipse Video]
+
+
+== Links ==
+
+* http://marakana.com/f/16[Turbocharge your UI]
+* http://marakana.com/f/563[Taming your UI]
 
 
 == Parking Lot ==
