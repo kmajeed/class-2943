@@ -203,7 +203,7 @@ DEMO: Setup the Alarm::
 Add an alarm in refresh receiver to kick start the refresh service at refresh interval.
 
 LAB: Create NotificationReceiver::
-Similar to BootReceiver, but uses NotificationManager.
+Similar to BootReceiver, but uses NotificationManager. Hint: Build Notification object using Notification.Builder. Include title, text, and pending intent to open your MainActivity
 
 HOMEWORK: Use Shared Prefs for Refresh Interval::
 We currently have the interval hard coded. We should be using values from the shared preferences instead.
