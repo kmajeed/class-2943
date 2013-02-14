@@ -1,6 +1,7 @@
 package com.control4.yamba;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +18,19 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		Fragment statusFragment = getFragmentManager().findFragmentById(
+				R.id.fragment_status);
+
+		if (statusFragment != null && statusFragment.isAdded())
+			menu.findItem(R.id.item_status).setVisible(false);
+		else
+			menu.findItem(R.id.item_status).setVisible(true);
+
 		return true;
 	}
 
