@@ -104,27 +104,24 @@ public class StatusProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-		String where;
-
-		if (selection == null)
-			selection = "";
+		String where = (selection == null) ? "" : selection;
 
 		switch (matcher.match(uri)) {
 		case StatusContract.CONTENT_TYPE_DIR:
-			where = "";
 			break;
 		case StatusContract.CONTENT_TYPE_ITEM:
 			long id = ContentUris.parseId(uri);
-			where = String.format(" and %s=%d", StatusContract.Columns.ID, id);
+			where = String.format("%s and %s=%d", where,
+					StatusContract.Columns.ID, id);
 			break;
 		default:
 			throw new IllegalArgumentException("Invalid uri: " + uri);
 		}
 
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Cursor cursor = db.query(StatusContract.TABLE, projection, selection
-				+ where, selectionArgs, null, null, sortOrder);
-		cursor.setNotificationUri( getContext().getContentResolver(), uri);
+		Cursor cursor = db.query(StatusContract.TABLE, projection, where,
+				selectionArgs, null, null, sortOrder);
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
 	}
 

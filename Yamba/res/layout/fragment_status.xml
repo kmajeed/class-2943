@@ -20,7 +20,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/button_update"
-        android:hint="@string/hint_status" >
+        android:hint="@string/hint_status"
+        android:inputType="textAutoCorrect|textMultiLine" >
 
         <requestFocus />
     </EditText>
