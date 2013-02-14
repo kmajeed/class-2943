@@ -20,6 +20,8 @@ public class TimelineFragment extends ListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		setEmptyText("Loading...");
+		
 		adapter = new SimpleCursorAdapter(getActivity(),
 				android.R.layout.simple_list_item_2, null, FROM, TO, 0);
 
@@ -33,12 +35,14 @@ public class TimelineFragment extends ListFragment implements
 	/** Executes on a non-UI thread. */
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		if(id!=LOADER_ID) return null;
 		return new CursorLoader(getActivity(), StatusContract.CONTENT_URI,
 				null, null, null, StatusContract.DEFAULT_SORT);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
 		adapter.swapCursor(cursor);
 	}
 

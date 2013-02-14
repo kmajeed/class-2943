@@ -2,6 +2,7 @@ package com.control4.yamba;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +21,8 @@ import android.widget.Toast;
 import com.marakana.android.yamba.clientlib.YambaClient;
 import com.marakana.android.yamba.clientlib.YambaClientException;
 
-public class StatusFragment extends Fragment implements TextWatcher, OnClickListener {
+public class StatusFragment extends Fragment implements TextWatcher,
+		OnClickListener {
 
 	private static final int MAX_COUNT = 140;
 	private Button buttonUpdate;
@@ -80,8 +82,9 @@ public class StatusFragment extends Fragment implements TextWatcher, OnClickList
 		@Override
 		protected void onPostExecute(String result) {
 			dialog.dismiss();
-			Toast.makeText(getActivity(), result, Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+			
+			getActivity().startService( new Intent(getActivity(), RefreshService.class) );
 		}
 
 	}
