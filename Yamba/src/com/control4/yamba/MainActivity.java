@@ -8,11 +8,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends Activity {
+	private static int theme = R.style.AppTheme;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null
+				&& savedInstanceState.getInt("theme", -1) != -1)
+			setTheme(savedInstanceState.getInt("theme", -1));
+
 		setContentView(R.layout.activity_main);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt("theme", theme);
 	}
 
 	@Override
@@ -46,9 +58,17 @@ public class MainActivity extends Activity {
 		case R.id.item_purge:
 			getContentResolver().delete(StatusContract.CONTENT_URI, null, null);
 			return true;
+		case R.id.item_theme:
+			if (theme != android.R.style.Theme_Holo)
+				theme = android.R.style.Theme_Holo;
+			else
+				theme = R.style.AppTheme;
+
+			this.recreate();
+
+			return true;
 		default:
 			return false;
 		}
 	}
-
 }

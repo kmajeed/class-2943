@@ -9,5 +9,6 @@
     <string name="title_activity_status">Status Update</string>
     <string name="refresh">Refresh</string>
     <string name="purge">Purge</string>
+    <string name="toggle_theme">Toggle Theme</string>
 
 </resources>
