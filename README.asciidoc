@@ -202,8 +202,8 @@ Use a BOOT COMPLETED broadcast action to trigger a receiver that will setup an A
 DEMO: Setup the Alarm::
 Add an alarm in refresh receiver to kick start the refresh service at refresh interval.
 
-HOMEWORK: Add Network Receiver::
-A receiver that turns on or off the refresh service alarm as network becomes available or unavailable.
+LAB: Create NotificationReceiver::
+Similar to BootReceiver, but uses NotificationManager.
 
 HOMEWORK: Use Shared Prefs for Refresh Interval::
 We currently have the interval hard coded. We should be using values from the shared preferences instead.
@@ -249,3 +249,5 @@ Or, watch http://mrkn.co/f/595[Eclipse Video]
 * Media system
 * Input system
 * Security
+* Custom components
+

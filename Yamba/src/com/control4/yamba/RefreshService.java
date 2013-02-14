@@ -29,6 +29,7 @@ public class RefreshService extends IntentService {
 	@Override
 	public void onHandleIntent(Intent intent) {
 		Log.d(TAG, "onStarted");
+		int counter = 0;
 
 		ContentValues values = new ContentValues();
 		try {
@@ -43,7 +44,10 @@ public class RefreshService extends IntentService {
 				values.put(StatusContract.Columns.CREATED_AT, status
 						.getCreatedAt().getTime());
 
-				getContentResolver().insert(StatusContract.CONTENT_URI, values);
+				if (getContentResolver().insert(StatusContract.CONTENT_URI,
+						values) != null) {
+					counter++;
+				}
 
 				Log.d(TAG,
 						String.format("%s: %s", status.getUser(),
@@ -52,6 +56,11 @@ public class RefreshService extends IntentService {
 		} catch (YambaClientException e) {
 			Log.e(TAG, "Failed to get the timeline", e);
 			e.printStackTrace();
+		}
+
+		if (counter > 0) {
+			sendBroadcast(new Intent("com.control4.yamba.action.NEW_STATUS")
+					.putExtra("count", counter));
 		}
 	}
 
