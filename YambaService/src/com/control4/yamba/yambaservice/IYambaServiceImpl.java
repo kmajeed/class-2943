@@ -20,6 +20,7 @@ public class IYambaServiceImpl extends IYambaService.Stub {
 
 	public IYambaServiceImpl(Context context) {
 		this.context = context;
+		YambaLib.log("IYambaServiceImpl created");
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class IYambaServiceImpl extends IYambaService.Stub {
 			e.printStackTrace();
 		}
 
-		Log.d(TAG, "got records:" + ret.size());
+		YambaLib.log("got records:" + ret.size());
 
 		return ret;
 	}
