@@ -3,6 +3,8 @@ package com.control4.yamba.yambaservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -14,9 +16,21 @@ import com.marakana.android.yamba.clientlib.YambaClientException;
 
 public class IYambaServiceImpl extends IYambaService.Stub {
 	private static final String TAG = "YambaService";
+	private Context context;
+
+	public IYambaServiceImpl(Context context) {
+		this.context = context;
+	}
 
 	@Override
 	public boolean updateStatus(String status) throws RemoteException {
+
+		if (context.checkCallingOrSelfPermission("com.control4.yamba.permission.YAMBA_SERVICE_UPDATE") 
+				!= PackageManager.PERMISSION_GRANTED) {
+			Log.e(TAG, "updateStatus security exception");
+			throw new SecurityException("Not allowed to update yamba status!");
+		}
+
 		try {
 			YambaClient yamba = new YambaClient("student", "password");
 			yamba.postStatus(status);
@@ -42,8 +56,8 @@ public class IYambaServiceImpl extends IYambaService.Stub {
 			Log.e(TAG, "Failed to post", e);
 			e.printStackTrace();
 		}
-		
-		Log.d(TAG, "got records:"+ret.size());
+
+		Log.d(TAG, "got records:" + ret.size());
 
 		return ret;
 	}

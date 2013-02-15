@@ -26,7 +26,7 @@ public class RefreshService extends IntentService {
 	/** Executes on the worker thread. */
 	@Override
 	public void onHandleIntent(Intent intent) {
-		Log.d(TAG, "onStarted");
+		Log.d(TAG, "onStarted intent"+intent);
 		int counter = 0;
 
 		ContentValues values = new ContentValues();
