@@ -10,5 +10,5 @@ public class YambaService extends Service {
 	public IBinder onBind(Intent intent) {
 		return new IYambaServiceImpl();
 	}
-
+ 
 }

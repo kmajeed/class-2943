@@ -8,9 +8,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.marakana.android.yamba.clientlib.YambaClient;
-import com.marakana.android.yamba.clientlib.YambaClient.Status;
-import com.marakana.android.yamba.clientlib.YambaClientException;
+import com.control4.yamba.yambalib.YambaStatus;
 
 public class RefreshService extends IntentService {
 	private static final String TAG = "RefreshService";
@@ -32,30 +30,26 @@ public class RefreshService extends IntentService {
 		int counter = 0;
 
 		ContentValues values = new ContentValues();
-		try {
-			YambaClient yamba = new YambaClient("student", "password");
-			List<Status> timeline = yamba.getTimeline(20);
-			for (Status status : timeline) {
+		List<YambaStatus> timeline = ((YambaApp) getApplication()).yambaManager
+				.getTimeline(20);
+		if (timeline == null) {
+			Log.d(TAG, "no timeline");
+			return;
+		}
+		for (YambaStatus status : timeline) {
 
-				values.clear();
-				values.put(StatusContract.Columns.ID, status.getId());
-				values.put(StatusContract.Columns.USER, status.getUser());
-				values.put(StatusContract.Columns.MESSAGE, status.getMessage());
-				values.put(StatusContract.Columns.CREATED_AT, status
-						.getCreatedAt().getTime());
+			values.clear();
+			values.put(StatusContract.Columns.ID, status.getId());
+			values.put(StatusContract.Columns.USER, status.getUser());
+			values.put(StatusContract.Columns.MESSAGE, status.getText());
+			values.put(StatusContract.Columns.CREATED_AT, status.getTimestamp());
 
-				if (getContentResolver().insert(StatusContract.CONTENT_URI,
-						values) != null) {
-					counter++;
-				}
-
-				Log.d(TAG,
-						String.format("%s: %s", status.getUser(),
-								status.getMessage()));
+			if (getContentResolver().insert(StatusContract.CONTENT_URI, values) != null) {
+				counter++;
 			}
-		} catch (YambaClientException e) {
-			Log.e(TAG, "Failed to get the timeline", e);
-			e.printStackTrace();
+
+			Log.d(TAG,
+					String.format("%s: %s", status.getUser(), status.getText()));
 		}
 
 		if (counter > 0) {

@@ -17,8 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.control4.yamba.yambalib.YambaManager;
-
 public class StatusFragment extends Fragment implements TextWatcher,
 		OnClickListener {
 
@@ -27,13 +25,10 @@ public class StatusFragment extends Fragment implements TextWatcher,
 	private EditText editStatus;
 	private TextView textCount;
 	private int defaultTextColor;
-	private YambaManager yambaManager;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		yambaManager = new YambaManager(getActivity());
 
 		View view = inflater
 				.inflate(R.layout.fragment_status, container, false);
@@ -49,7 +44,7 @@ public class StatusFragment extends Fragment implements TextWatcher,
 
 		return view;
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		String status = editStatus.getText().toString();
@@ -68,7 +63,8 @@ public class StatusFragment extends Fragment implements TextWatcher,
 		/** Executes on a separate worker thread. */
 		@Override
 		protected String doInBackground(String... params) {			
-			boolean hasPosted = yambaManager.updateStatus(params[0]);
+			YambaApp yambaApp = (YambaApp)(getActivity().getApplication());
+			boolean hasPosted = yambaApp.yambaManager.updateStatus(params[0]);
 			if(hasPosted) {
 				return "Successfully posted";
 			} else {

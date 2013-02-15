@@ -1,5 +1,7 @@
 package com.control4.yamba.yambalib;
 
+import java.util.List;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -31,14 +33,20 @@ public class YambaManager {
 		this.context.bindService(YAMBA_SERVICE_INTENT, connection,
 				Context.BIND_AUTO_CREATE);
 	}
+	
+	@Override
+	public void finalize() {
+		this.context.unbindService(connection);
+	}
 
 	// --- Proxy Calls ---
 
 	public boolean updateStatus(String status) {
 		if (yambaService == null) {
+			Log.e("Yamba", "yambaService not bound");
 			return false;
 		}
-		if(status == null) {
+		if (status == null) {
 			throw new IllegalArgumentException("Status cannot be null");
 		}
 		try {
@@ -48,6 +56,21 @@ public class YambaManager {
 			Log.e("Yamba", "Failed to post", e);
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+	public List<YambaStatus> getTimeline(int records) {
+		if (yambaService == null) {
+			Log.e("Yamba", "yambaService not bound");
+			return null;
+		}
+
+		try {
+			return yambaService.getTimeline(records);
+		} catch (RemoteException e) {
+			Log.e("Yamba", "Failed to get timeline", e);
+			e.printStackTrace();
+			return null;
 		}
 	}
 
