@@ -10,7 +10,7 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.control4.yamba.permission.YAMBA_SERVICE" />
-    <uses-permission android:name="com.control4.yamba.permission.YAMBA_SERVICE_UPDATE"/>
+    <uses-permission android:name="com.control4.yamba.permission.YAMBA_SERVICE_UPDATE" />
 
     <application
         android:name=".YambaApp"
@@ -35,7 +35,8 @@
 
         <provider
             android:name=".StatusProvider"
-            android:authorities="com.control4.android.yamba.provider.timeline" >
+            android:authorities="com.control4.android.yamba.provider.timeline"
+            android:exported="false" >
         </provider>
 
         <receiver android:name=".BootReceiver" >
@@ -43,7 +44,9 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".NotificationReceiver" >
+        <receiver
+            android:name=".NotificationReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.control4.yamba.action.NEW_STATUS" />
             </intent-filter>
