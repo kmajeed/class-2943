@@ -1,4 +1,4 @@
-package com.control4.yamba;
+package com.control4.yamba.yambalib;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -18,7 +18,7 @@ public class StatusContract {
   public static final int CONTENT_TYPE_ITEM = 1;
   public static final int CONTENT_TYPE_DIR = 2;
 
-  class Columns {
+  public class Columns {
     public static final String ID = BaseColumns._ID;
     public static final String USER = "user";
     public static final String MESSAGE = "message";

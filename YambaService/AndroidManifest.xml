@@ -12,7 +12,6 @@
     <permission
         android:name="com.control4.yamba.permission.YAMBA_SERVICE"
         android:protectionLevel="signature" />
-    
     <permission
         android:name="com.control4.yamba.permission.YAMBA_SERVICE_UPDATE"
         android:protectionLevel="signature" />

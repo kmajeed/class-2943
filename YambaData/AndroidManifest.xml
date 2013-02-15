@@ -1,0 +1,27 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.control4.yambadata"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="16" />
+
+    <permission
+        android:name="com.control4.yambadata.READ_STATUS"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="com.control4.yambadata.WRITE_STATUS"
+        android:protectionLevel="signature" />
+
+    <application android:allowBackup="true" >
+        <provider
+            android:name=".StatusProvider"
+            android:authorities="com.control4.android.yamba.provider.timeline"
+            android:exported="true"
+            android:readPermission="com.control4.yambadata.READ_STATUS"
+            android:writePermission="com.control4.yambadata.WRITE_STATUS" >
+        </provider>
+    </application>
+
+</manifest>

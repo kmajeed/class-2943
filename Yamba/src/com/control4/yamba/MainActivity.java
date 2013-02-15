@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.control4.yamba.yambalib.StatusContract;
+
 public class MainActivity extends Activity {
 	private static int theme = R.style.AppTheme;
 

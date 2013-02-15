@@ -12,6 +12,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
+import com.control4.yamba.yambalib.StatusContract;
+
 public class TimelineFragment extends ListFragment implements
 		LoaderCallbacks<Cursor> {
 	private static final String[] FROM = { StatusContract.Columns.USER,

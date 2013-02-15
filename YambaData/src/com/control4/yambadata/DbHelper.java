@@ -1,4 +1,6 @@
-package com.control4.yamba;
+package com.control4.yambadata;
+
+import com.control4.yamba.yambalib.StatusContract;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

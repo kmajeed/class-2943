@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.control4.yamba.yambalib.StatusContract;
 import com.control4.yamba.yambalib.YambaStatus;
 
 public class RefreshService extends IntentService {
