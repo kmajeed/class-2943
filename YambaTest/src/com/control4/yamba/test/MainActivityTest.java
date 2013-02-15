@@ -10,6 +10,10 @@ import com.control4.yamba.MainActivity;
 import com.control4.yamba.R;
 import com.control4.yamba.TimelineFragment;
 
+/**
+ * Run on command line using:
+ * adb shell am instrument -w com.control4.yamba.test/android.test.InstrumentationTestRunner
+ */
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	private MainActivity activity;
 	private TimelineFragment fragment;
@@ -35,11 +39,11 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	
 	@UiThreadTest
 	public void testPurge() {
-
+		// TODO
 	}
 	
 	public void testRefresh() {
-		
+		// TODO
 	}
 
 	@Override
