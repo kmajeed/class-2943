@@ -1,20 +1,13 @@
 package com.control4.yamba;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.control4.yamba.yambalib.IYambaService;
+import com.control4.yamba.yambalib.YambaManager;
 
 public class StatusFragment extends Fragment implements TextWatcher,
 		OnClickListener {
@@ -34,31 +27,14 @@ public class StatusFragment extends Fragment implements TextWatcher,
 	private EditText editStatus;
 	private TextView textCount;
 	private int defaultTextColor;
-	
-	private IYambaService yambaService;
-	private static final Intent YAMBA_SERVICE_INTENT = new Intent(
-			"com.control4.yamba.yambalib.IYambaService");
-
-	private ServiceConnection connection = new ServiceConnection() {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			yambaService = IYambaService.Stub.asInterface(service);
-		}
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			yambaService = null;
-		}
-	};
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		activity.bindService(YAMBA_SERVICE_INTENT, connection, Context.BIND_AUTO_CREATE);
-	}
+	private YambaManager yambaManager;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		yambaManager = new YambaManager(getActivity());
+
 		View view = inflater
 				.inflate(R.layout.fragment_status, container, false);
 
@@ -91,17 +67,12 @@ public class StatusFragment extends Fragment implements TextWatcher,
 
 		/** Executes on a separate worker thread. */
 		@Override
-		protected String doInBackground(String... params) {
-			if(yambaService==null || params.length<1) 
-				return "No service or no data";
-			try {
-				yambaService.updateStatus(params[0]);
-				Log.d("Yamba", "onClicked with text: " + params[0]);
+		protected String doInBackground(String... params) {			
+			boolean hasPosted = yambaManager.updateStatus(params[0]);
+			if(hasPosted) {
 				return "Successfully posted";
-			} catch (RemoteException e) {
-				Log.e("Yamba", "Failed to post", e);
-				e.printStackTrace();
-				return "Failed to post";
+			} else {
+				return "Failed to post";				
 			}
 		}
 

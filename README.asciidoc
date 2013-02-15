@@ -237,6 +237,7 @@ Or, watch http://mrkn.co/f/595[Eclipse Video]
 * http://marakana.com/f/16[Turbocharge your UI]
 * http://marakana.com/f/563[Taming your UI]
 * https://developers.google.com/events/io/sessions/gooio2012/109/[For Butter of Worse]
+* http://source.android.com/source/code-style.html[Android Code Style Guidelines]
 
 == Parking Lot ==
 
